@@ -5,9 +5,11 @@ import plotly.express as px
 from data_frames import read_table, file_path, TABLE_B1
 
 # Function to create the plot
+
+
 def graph5():
-    st.header("Labour Force Summary")
-        # Sidebar widget for area of residence selection
+    st.header("General working-age population distribution (16+ years)")
+    # Sidebar widget for area of residence selection
     st.sidebar.selectbox('Gender', ['Male', 'Female'])
     # Adjust these parameters as needed for your Excel file
     df = read_table(file_path, TABLE_B1, 'A', 'D', 3, 7)
@@ -58,6 +60,7 @@ def graph5():
     """
     st.markdown(summary_text)
     st.markdown("------------------------------------------------------------")
+
 
 if __name__ == "__main__":
     graph5()

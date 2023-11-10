@@ -12,7 +12,8 @@ from graph4 import graph4
 from graph5 import graph5
 
 # Set page config to wide mode for a better layout.
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
+                   page_icon=":bar_chart:", initial_sidebar_state="expanded", )
 
 # Creating a container for the title
 title_container = st.container()
@@ -29,7 +30,11 @@ with graph_container:
             highlighting the relationship between educational attainment, gender, and age-group with employment statistics.""")
 
     # Define a list of graph functions
-    graphs = [graph5, graph1, graph2, graph3, graph4]
+    graphs = [graph5,
+              #   graph1,
+              graph2,
+              graph3,
+              graph4]
 
     # Initialize session state for the index of the current graph
     if 'current_graph_index' not in st.session_state:
