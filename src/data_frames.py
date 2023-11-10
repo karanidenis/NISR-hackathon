@@ -34,7 +34,10 @@ def read_table(file_path, sheet_name, table_start_col, table_end_col,
     return df
 
 
-general_employement_df = read_table(file_path, TABLE_B1, 'A', 'H', 3, 8)
+general_employement_df = read_table(file_path, TABLE_B1, 'A', 'D', 3, 7)
 
 # Display the DataFrame to see if it has been loaded correctly
-print(general_employement_df)
+# print(general_employement_df)
+
+if __name__ == "__main__":
+    print(general_employement_df)
