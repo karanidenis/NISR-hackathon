@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-
+from graph6 import graph6
 
 
 def graph2():
@@ -12,42 +12,7 @@ def graph2():
     st.header("Impact of Education Level on Employment Statistics")
 
     # Assuming df_b5 is your DataFrame containing the data from Table B.5
-    # You would load your data here
-    # df_b5 = pd.read_csv('path_to_your_csv.csv')
 
-    # For demonstration purposes, we're creating a sample dataframe.
-    df_b5 = pd.DataFrame({
-        'Education_Level': ['None', 'Primary', 'Lower_secondary', 'Upper_secondary', 'University'],
-        'Labour_force_participation_rate': [58.3, 59.7, 48.2, 68.3, 86.9],
-        'Employment_to_population_ratio': [48.8, 48.5, 38.1, 52.4, 73.5],
-        'Unemployment_rate': [16.4, 18.7, 21.1, 23.3, 15.5]
-    })
-
-    # Interactive chart for education impact
-    fig_b5 = go.Figure()
-
-    # Adding traces for each rate
-    for column in df_b5.columns[1:]:
-        fig_b5.add_trace(go.Bar(
-            x=df_b5['Education_Level'],
-            y=df_b5[column],
-            name=column,
-            marker_line_color='rgb(0,0,0)',
-            marker_line_width=1.5,
-            opacity=0.7
-        ))
-
-    # Customize layout with a title and axis labels
-    fig_b5.update_layout(
-        title="Labour Force Statistics by Education Level",
-        xaxis_title="Education Level",
-        yaxis_title="Rate (%)",
-        legend_title="Indicators",
-        barmode='group',
-        margin=dict(l=60, r=60, t=50, b=50)  # Adjust margins to fit the title
-    )
-
-    st.plotly_chart(fig_b5)
 
     # Data for the unemployed population by level of education
     unemployed_data = {
@@ -107,7 +72,9 @@ def graph2():
     )
 
     # Render the plot in Streamlit
+    graph6()
     st.plotly_chart(fig)
+    
 
     st.markdown("""
     The chart above illustrates the correlation between the level of education and various labour market statistics
