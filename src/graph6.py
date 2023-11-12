@@ -6,9 +6,8 @@ from data_frames import read_table, file_path
 
 # Streamlit app
 
-def graph6():
+def graph6(df):
     # Read the table using the provided function
-    df = read_table(file_path, 'Table B.5', 'A', 'I', 2, 24)
 
     # Process the data to create separate DataFrames
     # Exclude the overall total row (usually the first row in the total_df)
@@ -44,4 +43,5 @@ def graph6():
 
 
 if __name__ == "__main__":
-    graph6()
+    df = read_table(file_path, 'Table B.5', 'A', 'I', 2, 24)
+    graph6(df)

@@ -37,10 +37,10 @@ def graph1(df):
     # Filter the DataFrame based on the selected area
     filtered_df = df_adjusted[['Indicators', area]]
 
-    # Create the bar chart with the filtered data
-    fig_b1 = px.bar(filtered_df, x='Indicators', y=area,
-                    title=f'Labour Force Indicators in Rwanda - {area}')
-    st.plotly_chart(fig_b1)
+    # # Create the bar chart with the filtered data
+    # fig_b1 = px.bar(filtered_df, x='Indicators', y=area,
+    #                 title=f'Labour Force Indicators in Rwanda - {area}')
+    # st.plotly_chart(fig_b1)
 
     # Create a pie chart with the filtered data
     fig_pie = px.pie(filtered_df, values=area, names='Indicators',
