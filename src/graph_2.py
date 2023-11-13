@@ -4,42 +4,14 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from graph_6 import graph6
+
 
 def graph2(df):
-
+    st.sidebar.selectbox('Select Gender', [
+        'Male', 'Female'])
     st.header("Impact of Education Level on Employment Statistics")
-
-    # Extract the relevant data for the first chart
-    # Adjust indices as per your DataFrame
-    df_b5 = df.iloc[1:7, [0, 6, 7, 8]]
-    df_b5.columns = ['Education_Level', 'Labour_force_participation_rate',
-                     'Employment_to_population_ratio', 'Unemployment_rate']
-
-    # Interactive chart for education impact
-    fig_b5 = go.Figure()
-
-    # Adding traces for each rate
-    for column in df_b5.columns[1:]:
-        fig_b5.add_trace(go.Bar(
-            x=df_b5['Education_Level'],
-            y=df_b5[column],
-            name=column,
-            marker_line_color='rgb(0,0,0)',
-            marker_line_width=1.5,
-            opacity=0.7
-        ))
-
-    # Customize layout with a title and axis labels
-    fig_b5.update_layout(
-        title="Labour Force Statistics by Education Level",
-        xaxis_title="Education Level",
-        yaxis_title="Rate (%)",
-        legend_title="Indicators",
-        barmode='group',
-        margin=dict(l=60, r=60, t=50, b=50)  # Adjust margins to fit the title
-    )
-
-    st.plotly_chart(fig_b5)
+    graph6()
 
     # Process data for subplots
     # Skip the first row which is a header
