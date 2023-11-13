@@ -35,6 +35,7 @@ cd NISR-hackathon
 To install the dependencies, run the following command:
 
 ```bash
+
 pip install -r requirements.txt
 ```
 
@@ -43,6 +44,11 @@ pip install -r requirements.txt
 To run the application, navigate to the directory containing `streamlit_app.py` and execute:
 
 ```bash
+cd src
+```
+
+```bash
+
 streamlit run streamlit_app.py
 ```
 
