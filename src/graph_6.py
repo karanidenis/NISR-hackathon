@@ -5,8 +5,10 @@ import streamlit as st
 from data_frames import read_table, file_path
 
 
-def graph6(df):
+def graph6():
     # Process the data to create separate DataFrames
+    
+    df = read_table(file_path, 'Table B.5', 'A', 'I', 2, 24)
     # Exclude the overall total row (usually the first row in the total_df)
     total_df = df.iloc[2:7].copy()
     male_df = df.iloc[9:14].copy()
@@ -39,6 +41,3 @@ def graph6(df):
     st.plotly_chart(fig)
 
 
-if __name__ == "__main__":
-    df = read_table(file_path, 'Table B.5', 'A', 'I', 2, 24)
-    graph6(df)
