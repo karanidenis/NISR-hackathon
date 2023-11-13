@@ -4,24 +4,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# # the path to your Excel file
-# file_path = './data/labour_force_data.xlsx'
-
-# # Replace 'Sheet1' with your specific sheet name if needed
-# sheet_name = 'Table B.5'
-
-# # Read the Excel file, skipping the first two rows
-# df = pd.read_excel(file_path, sheet_name=sheet_name, skiprows=1)
-# df = df.dropna(axis=1, how='all')  # Drop empty columns
-# df = df.dropna(axis=0, how='all')  # Drop empty rows
-# print(df[1:7])
-# print(df[8:14])
-# print(df[15:21])
-
-
-# Assuming df is the DataFrame you've read from the Excel file
-# Make sure to pass it as an argument or ensure it's accessible in the scope
-
 
 def graph2(df):
 

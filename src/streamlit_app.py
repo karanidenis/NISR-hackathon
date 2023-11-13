@@ -1,17 +1,12 @@
 import streamlit as st
 import pandas as pd
 
-# Import your graph functions. Ensure that these are defined in separate Python files and are importable.
+# Import your graph functions.
 from graph_1 import graph1
 from graph_2 import graph2
 from graph_3 import graph3
 from graph_4 import graph4
 from graph6 import graph6
-# from graph1 import graph1
-# from graph2 import graph2
-# from graph3 import graph3
-# from graph4 import graph4
-# from graph5 import graph5
 
 # Set page configuration
 st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
@@ -56,7 +51,6 @@ with st.container():
 
     # Define a list of graph functions
     graph_functions = [graph1, graph2, graph3, graph4, graph6]
-    # Add other DataFrames like df_b2, df_b3, etc., to this list.
     dataframes = [df_b1, df_b5, df_b7, df_b17, df_b5]
 
     # Initialize session state for the index of the current graph

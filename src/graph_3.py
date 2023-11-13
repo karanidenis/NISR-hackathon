@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# Function to create the bar chart
-
 
 def graph3(df):
     st.header("Gender disparities in labour market outcomes")
@@ -68,9 +66,7 @@ def graph3(df):
 
 # Run the graph3 function when the script is executed
 if __name__ == '__main__':
-    #  Read the data from the Excel file
     df = pd.read_excel('./data/labour_force_data.xlsx',
                        sheet_name='Table B.8', skiprows=2)
-    # Drop rows and columns with all NaN values
     df = df.dropna(axis=1, how='all').dropna(axis=0, how='all')
     graph3(df)
