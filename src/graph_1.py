@@ -18,8 +18,8 @@ def graph1(df):
     st.header("General Labour Force Statistics")
 
     # Sidebar widget for area of residence selection
-    area = st.sidebar.selectbox('Select Area of Residence', [
-                                'Total', 'Male', 'Female', 'Urban', 'Rural'])
+    area = st.sidebar.selectbox('Select Sex', [
+                                'Total', 'Male', 'Female'])
 
     # Adjust the DataFrame to match the required structure
     df_slice = df.iloc[2:5]
@@ -28,8 +28,8 @@ def graph1(df):
         'Total': df_slice['Total'],
         'Male': df_slice['Male'],
         'Female': df_slice['Female'],
-        'Urban': df_slice['Urban'],
-        'Rural': df_slice['Rural']
+        # 'Urban': df_slice['Urban'],
+        # 'Rural': df_slice['Rural']
     })
 
     # Filter the DataFrame based on the selected area
