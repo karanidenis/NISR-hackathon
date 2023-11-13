@@ -1,5 +1,3 @@
-### Navigating the Dynamics of Rwanda's Labour Force
-
 # Rwanda Labour Force Survey Dashboard 2023:Q3
 
 ## Overview
@@ -16,7 +14,7 @@ This Streamlit application provides an interactive dashboard to explore the dyna
 
 ### Prerequisites
 
-Before running the application, ensure you have Python installed on your system. This application was built using Python 3.8. It may work with other versions, but compatibility is not guaranteed.
+Before running the application, please make sure you have Python installed on your system. This application was built using Python 3.8. It may work with other versions, but compatibility is not guaranteed.
 
 ### Clone the Repository
 
@@ -56,7 +54,7 @@ The application should now be running on `http://localhost:8501`.
 
 ## Demo
 
-Watch a live demo of the dashboard [here](https://watch.screencastify.com/v/EB2aTU4VdIGGBAO2C9AJ).
+Watch a live demo of the dashboard [here](https://drive.google.com/file/d/1Qi0slMFULop5i0Mv3Oj5uwvdaEpX9hg9/view).
 
 ## Usage
 
