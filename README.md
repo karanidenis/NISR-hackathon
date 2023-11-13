@@ -40,6 +40,9 @@ streamlit run streamlit_app.py
 
 The application should now be running on `http://localhost:8501`.
 
+## Demo
+Watch a live demo of the dashboard [here](https://drive.google.com/file/d/1UUQ9Plm5eKD61qS5jc1jWhHtDiJnVkGZ/view).
+
 ## Usage
 After launching the application, use the sidebar widgets to filter the data based on sex, age group, or area of residence. The charts will update interactively based on your selections.
 
