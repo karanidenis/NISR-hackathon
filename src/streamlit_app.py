@@ -4,7 +4,7 @@ import pandas as pd
 # Import your graph functions.
 from graph_1 import graph1
 from graph_2 import graph2
-from graph_3 import graph3
+from graph_3 import graph_3
 from graph_4 import graph4
 
 # Set page configuration
@@ -49,8 +49,8 @@ with st.container():
     """)
 
     # Define a list of graph functions
-    graph_functions = [graph1, graph2, graph3, graph4]
-    dataframes = [df_b1, df_b5, df_b7, df_b17, df_b5]
+    graph_functions = [graph1, graph2, graph_3, graph4]
+    dataframes = [df_b1, df_b5, df_b8, df_b7, df_b17, df_b5]
 
     # Initialize session state for the index of the current graph
     if 'current_graph_index' not in st.session_state:

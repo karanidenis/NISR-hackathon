@@ -19,7 +19,7 @@ def graph4(df):
 
     # Sidebar for gender selection
     gender_options = ['Total', 'Male', 'Female']
-    selected_gender = st.sidebar.selectbox('Select Gender', gender_options)
+    selected_gender = st.sidebar.radio('Select Gender', gender_options)
 
     # Plot for Table B.7
     fig_b7 = go.Figure()
@@ -27,9 +27,13 @@ def graph4(df):
     if selected_gender == 'Total':
         # Include both 'Male' and 'Female' data
         fig_b7.add_trace(go.Bar(
-            x=df_b7['Occupation_Group'], y=df_b7['Male'], name='Male', marker_color='blue'))
+            x=df_b7['Occupation_Group'], y=df_b7['Male'], name='Male', 
+            # marker_color='blue'
+            ))
         fig_b7.add_trace(go.Bar(
-            x=df_b7['Occupation_Group'], y=df_b7['Female'], name='Female', marker_color='red'))
+            x=df_b7['Occupation_Group'], y=df_b7['Female'], name='Female',
+            # marker_color='red'
+            ))
     else:
         # Only include the selected gender data
         fig_b7.add_trace(go.Bar(
@@ -52,9 +56,13 @@ def graph4(df):
     if selected_gender == 'Total':
         # Include both 'Male' and 'Female' data
         fig_b17.add_trace(go.Bar(
-            x=df_b17['Occupation_Group'], y=df_b17['Male'], name='Male', marker_color='blue'))
+            x=df_b17['Occupation_Group'], y=df_b17['Male'], name='Male', 
+            # marker_color='blue'
+            ))
         fig_b17.add_trace(go.Bar(
-            x=df_b17['Occupation_Group'], y=df_b17['Female'], name='Female', marker_color='red'))
+            x=df_b17['Occupation_Group'], y=df_b17['Female'], name='Female',
+            # marker_color='red'
+            ))
     else:
         # Only include the selected gender data
         fig_b17.add_trace(go.Bar(
@@ -76,6 +84,10 @@ if __name__ == '__main__':
     # Load data
     df = pd.read_excel('data/labour_force_data.xlsx',
                        sheet_name='Table B.7', skiprows=2)
+    # drop last row
+    df = df.iloc[:-1]
     df = pd.read_excel('data/labour_force_data.xlsx',
                        sheet_name='Table B.17', skiprows=2)
+    #  drop last row
+    df = df.iloc[:-1]
     graph4(df)

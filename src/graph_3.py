@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-def graph3(df):
+def graph_3(df):
     st.header("Gender disparities in labour market outcomes")
 
     # Reset index if necessary
@@ -25,20 +25,20 @@ def graph3(df):
             x=df['Occupation_Group'],
             y=df['Male'],
             name='Male',
-            marker_color='blue'
+            # marker_color='blue'
         ))
         fig_b8.add_trace(go.Bar(
             x=df['Occupation_Group'],
             y=df['Female'],
             name='Female',
-            marker_color='magenta'
+            # marker_color='magenta'
         ))
     else:
         fig_b8.add_trace(go.Bar(
             x=df['Occupation_Group'],
             y=df[selected_gender],
             name=selected_gender,
-            marker_color='blue' if selected_gender == "Male" else 'magenta'
+            # marker_color='blue' if selected_gender == "Male" else 'magenta'
         ))
 
     # Customize layout with a title and axis labels
@@ -69,4 +69,6 @@ if __name__ == '__main__':
     df = pd.read_excel('./data/labour_force_data.xlsx',
                        sheet_name='Table B.8', skiprows=2)
     df = df.dropna(axis=1, how='all').dropna(axis=0, how='all')
-    graph3(df)
+    # drop last row
+    df = df.iloc[:-1]
+    graph_3(df)

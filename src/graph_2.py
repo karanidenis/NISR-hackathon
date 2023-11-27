@@ -8,7 +8,7 @@ from graph_6 import graph6
 
 
 def graph2(df):
-    st.sidebar.selectbox('Select Gender', [
+    st.sidebar.radio('Select Gender', [
         'Male', 'Female'])
     st.header("Impact of Education Level on Employment Statistics")
     graph6()
