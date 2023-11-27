@@ -89,7 +89,7 @@ def graph4(df):
 
     # Sidebar for gender selection
     gender_options = ['Total', 'Male', 'Female']
-    selected_gender = st.sidebar.selectbox('Select Gender', gender_options)
+    selected_gender = st.sidebar.radio('Select Gender', gender_options)
 
     # Plot for Table B.7
     fig_b7 = go.Figure()

@@ -20,7 +20,7 @@ def graph1(df):
     st.header("General Labour Force Statistics")
 
     # Sidebar widget for area of residence selection
-    area = st.sidebar.selectbox('Select Area of Residence', [
+    area = st.sidebar.radio('Select Area of Residence', [
                                 'Total', 'Male', 'Female', 'Urban', 'Rural'])
 
     # Adjust the DataFrame to match the required structure

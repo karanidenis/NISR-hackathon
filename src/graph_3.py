@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 # Function to create the bar chart
 
 
-def graph3(df):
+def graph_3(df):
     st.header("Gender disparities in labour market outcomes")
 
     # Reset index if necessary
@@ -73,4 +73,4 @@ if __name__ == '__main__':
                        sheet_name='Table B.8', skiprows=2)
     # Drop rows and columns with all NaN values
     df = df.dropna(axis=1, how='all').dropna(axis=0, how='all')
-    graph3(df)
+    graph_3(df)

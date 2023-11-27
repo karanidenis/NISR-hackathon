@@ -4,24 +4,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# # the path to your Excel file
-# file_path = './data/labour_force_data.xlsx'
-
-# # Replace 'Sheet1' with your specific sheet name if needed
-# sheet_name = 'Table B.5'
-
-# # Read the Excel file, skipping the first two rows
-# df = pd.read_excel(file_path, sheet_name=sheet_name, skiprows=1)
-# df = df.dropna(axis=1, how='all')  # Drop empty columns
-# df = df.dropna(axis=0, how='all')  # Drop empty rows
-# print(df[1:7])
-# print(df[8:14])
-# print(df[15:21])
-
-
-# Assuming df is the DataFrame you've read from the Excel file
-# Make sure to pass it as an argument or ensure it's accessible in the scope
-
 
 def graph2(df):
 
@@ -30,34 +12,95 @@ def graph2(df):
     # Extract the relevant data for the first chart
     # Adjust indices as per your DataFrame
     df_b5 = df.iloc[1:7, [0, 6, 7, 8]]
-    df_b5.columns = ['Education_Level', 'Labour_force_participation_rate',
-                     'Employment_to_population_ratio', 'Unemployment_rate']
+    # df_b5.columns = ['Education_Level', 'Labour_force_participation_rate',
+    #                  'Employment_to_population_ratio', 'Unemployment_rate']
+
+    # Sidebar widget for gender selection
+    selected_gender = st.sidebar.radio(
+        "Select Gender", ["Total", "Male", "Female"])
+
+    # Define index ranges for Total, Male, and Female data in the DataFrame
+    index_ranges = {
+        "Total": slice(1, 7),  # Assuming 'Total' data is from row 2 to row 7
+        "Male": slice(8, 14),  # Assuming 'Male' data is from row 9 to row 14
+        # Assuming 'Female' data is from row 16 to row 21
+        "Female": slice(15, 21)
+    }
+
+    # Use the selected gender to determine which rows to select from the DataFrame
+    gender_slice = index_ranges[selected_gender]
+
+    # Extract the relevant data for the selected gender
+    df_gender = df.iloc[gender_slice, [0, 6, 7, 8]]
+    df_gender = df_gender.set_index('Unnamed: 0').reset_index()
+    df_gender.columns = ['Education_Level', 'Labour_force_participation_rate',
+                         'Employment_to_population_ratio', 'Unemployment_rate']
+
+    # Interactive chart for education impact
+    fig_b5 = make_subplots(rows=1, cols=3, subplot_titles=(
+        'Labour_force_participation_rate',
+        'Employment_to_population_ratio', 'Unemployment_rate'))
 
     # Interactive chart for education impact
     fig_b5 = go.Figure()
 
     # Adding traces for each rate
-    for column in df_b5.columns[1:]:
-        fig_b5.add_trace(go.Bar(
-            x=df_b5['Education_Level'],
-            y=df_b5[column],
-            name=column,
-            marker_line_color='rgb(0,0,0)',
-            marker_line_width=1.5,
-            opacity=0.7
-        ))
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'],
+        y=df_gender['Labour_force_participation_rate'],
+        name='Labour Force Participation Rate'
+    ))
+
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'],
+        y=df_gender['Employment_to_population_ratio'],
+        name='Employment to Population Ratio'
+    ))
+
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'],
+        y=df_gender['Unemployment_rate'],
+        name='Unemployment Rate'
+    ))
 
     # Customize layout with a title and axis labels
     fig_b5.update_layout(
-        title="Labour Force Statistics by Education Level",
+        title=f"Labour Force Statistics by Education Level for {selected_gender} Population",
         xaxis_title="Education Level",
         yaxis_title="Rate (%)",
-        legend_title="Indicators",
         barmode='group',
-        margin=dict(l=60, r=60, t=50, b=50)  # Adjust margins to fit the title
+        margin=dict(l=60, r=60, t=50, b=50)
     )
 
+    # Render the plot in Streamlit
     st.plotly_chart(fig_b5)
+ 
+
+    # # Interactive chart for education impact
+    # fig_b5 = go.Figure()
+
+    # # Adding traces for each rate
+    # for column in df_b5.columns[1:]:
+    #     fig_b5.add_trace(go.Bar(
+    #         x=df_b5['Education_Level'],
+    #         y=df_b5[column],
+    #         name=column,
+    #         marker_line_color='rgb(0,0,0)',
+    #         marker_line_width=1.5,
+    #         opacity=0.7
+    #     ))
+
+    # # Customize layout with a title and axis labels
+    # fig_b5.update_layout(
+    #     title="Labour Force Statistics by Education Level",
+    #     xaxis_title="Education Level",
+    #     yaxis_title="Rate (%)",
+    #     legend_title="Indicators",
+    #     barmode='group',
+    #     margin=dict(l=60, r=60, t=50, b=50)  # Adjust margins to fit the title
+    # )
+
+    # st.plotly_chart(fig_b5)
 
     # Process data for subplots
     # Skip the first row which is a header
