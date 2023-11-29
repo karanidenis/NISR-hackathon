@@ -1,85 +1,138 @@
 from plotly.subplots import make_subplots
-import streamlit as st
+import plotly.graph_objects as go
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-
-from graph6 import graph6
+import streamlit as st
 
 
-def graph2():
+def graph2(df):
 
     st.header("Impact of Education Level on Employment Statistics")
 
-    # Assuming df_b5 is your DataFrame containing the data from Table B.5
+    # Extract the relevant data for the first chart
+    # Adjust indices as per your DataFrame
+    df_b5 = df.iloc[1:7, [0, 6, 7, 8]]
 
+    # Sidebar widget for gender selection
+    selected_gender = st.sidebar.radio(
+        "Filter by Sex", ["Total", "Male", "Female"])
 
-    # Data for the unemployed population by level of education
-    unemployed_data = {
-        'Education_Level': ['Total', 'None', 'Primary', 'Lower_secondary', 'Upper_secondary', 'University'],
-        'Total': [874876, 357109, 293168, 74611, 105424, 44565],
-        'Male': [391587, 174271, 122029, 32734, 43710, 18842],
-        'Female': [483289, 182838, 171138, 41877, 61713, 25723],
-        'Urban': [265393, 77041, 56554, 30190, 61343, 40265],
-        'Rural': [609483, 280068, 236613, 44421, 44081, 4300],
-        'Participated': [327541, 141634, 132302, 28309, 23756, 1540],
-        'Not participated': [547335, 215475, 160865, 46302, 81668, 43025]
+    # Define index ranges for Total, Male, and Female data in the DataFrame
+    index_ranges = {
+        "Total": slice(1, 7),
+        "Male": slice(8, 14),
+        # Assuming 'Female' data is from row 16 to row 21
+        "Female": slice(15, 21)
     }
 
-    # Data for the employed population by level of education
-    employed_data = {
-        'Education_Level': ['Total', 'None', 'Primary', 'Lower_secondary', 'Upper_secondary', 'University'],
-        'Total': [3972193, 1825744, 1277562, 278889, 346961, 243037],
-        'Male': [2248640, 994006, 769758, 157728, 186336, 140811],
-        'Female': [1723553, 831738, 507804, 121161, 160625, 102226],
-        'Urban': [1405959, 448242, 421828, 128546, 194297, 213046],
-        'Rural': [2566234, 1377503, 855734, 150342, 152664, 29991],
-        'Participated': [972074, 559028, 314831, 47071, 37023, 14121],
-        'Not participated': [3000119, 1266716, 962731, 231818, 309938, 228916]
-    }
+    # Use the selected gender to determine which rows to select from the DataFrame
+    gender_slice = index_ranges[selected_gender]
 
-    # Convert data to dataframes
-    unemployed_df = pd.DataFrame(unemployed_data)
-    employed_df = pd.DataFrame(employed_data)
+    # Extract the relevant data for the selected gender
+    df_gender = df.iloc[gender_slice, [0, 6, 7, 8]]
+    df_gender = df_gender.set_index('Unnamed: 0').reset_index()
+    df_gender.columns = ['Education_Level', 'Labour_force_participation_rate',
+                         'Employment_to_population_ratio', 'Unemployment_rate']
 
-    # Create subplots: one for unemployed data, one for employed data
-    fig = make_subplots(rows=1, cols=2, subplot_titles=(
-        "Unemployed by Education Level", "Employed by Education Level"))
+    # Interactive chart for education impact
+    fig_b5 = make_subplots(rows=1, cols=3, subplot_titles=(
+        'Labour_force_participation_rate',
+        'Employment_to_population_ratio', 'Unemployment_rate'))
 
-    # Add traces for unemployed data
-    fig.add_trace(
-        go.Bar(x=unemployed_df['Education_Level'],
-               y=unemployed_df['Total'], name='Unemployed Total'),
-        row=1, col=1
-    )
-    # ... Add other unemployed traces if needed ...
+    # Interactive chart for education impact
+    fig_b5 = go.Figure()
 
-    # Add traces for employed data
-    # Add traces for employed data
-    fig.add_trace(
-        go.Bar(x=employed_df['Education_Level'],
-               y=employed_df['Total'], name='Employed Total'),
-        row=1, col=2
-    )
-    # Optionally add more traces for different categories (Male, Female, etc.)
+    # Adding traces for each rate
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'], marker_color='#006af9',
+        y=df_gender['Labour_force_participation_rate'],
+        name='Labour Force Participation Rate'
+    ))
 
-    # Update layout for clear visibility and unified look
-    fig.update_layout(
-        title_text="Employment Status by Education Level",
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'], marker_color='#dc00fe',
+        y=df_gender['Employment_to_population_ratio'],
+        name='Employment to Population Ratio'
+    ))
+
+    fig_b5.add_trace(go.Bar(
+        x=df_gender['Education_Level'], marker_color='#5319fb',
+        y=df_gender['Unemployment_rate'],
+        name='Unemployment Rate'
+    ))
+
+    # Customize layout with a title and axis labels
+    fig_b5.update_layout(
+        title=f"Labour Force Statistics by Education Level for {selected_gender} Population",
+        xaxis_title="Education Level",
+        yaxis_title="Rate (%)",
         barmode='group',
-        height=600,
-        # Since we are in Streamlit, we don't need to set a fixed width. Streamlit will take care of it.
+        margin=dict(l=60, r=60, t=50, b=50)
     )
 
     # Render the plot in Streamlit
-    graph6()
-    st.plotly_chart(fig)
-    
+    st.plotly_chart(fig_b5)
 
     st.markdown("""
     The chart above illustrates the correlation between the level of education and various labour market statistics
     for the population aged 16 and over. Higher levels of education tend to be associated with higher labour force
     participation rates and employment-to-population ratios, alongside lower unemployment rates.
     """)
-    
+
+    # Process data for subplots
+    # Skip the first row which is a header
+    education_levels = df['Unnamed: 0'][1:7]
+    unemployed_df = df['Unemployed'][1:7]
+    employed_df = df['Employed'][1:7]
+    # Create subplots: one for unemployed data, one for employed data
+    fig = make_subplots(rows=1, cols=2, subplot_titles=(
+        "Unemployed by Education Level", "Employed by Education Level"))
+
+    # Add traces for unemployed data
+    # Add traces for employed data
+    fig.add_trace(
+        go.Bar(x=education_levels, marker_color='#006af9',
+               y=employed_df, name='Employed Total'),
+        row=1, col=1
+    )
+
+    fig.add_trace(
+        go.Bar(x=education_levels, marker_color='#dc00fe',
+               y=unemployed_df, name='Unemployed Total'),
+        row=1, col=2
+    )
+
+    # Update layout for clear visibility and unified look
+    fig.update_layout(
+        title_text="Employment Status by Education Level",
+        barmode='group',
+        height=600,
+    )
+
+    # Render the plot in Streamlit
+    view_mode = st.sidebar.selectbox(
+        "View Mode for second plot", ["Chart", "Raw Data"])
+    if view_mode == "Chart":
+        st.plotly_chart(fig)
+    elif view_mode == "Raw Data":
+        st.write(df)
+    else:
+        st.plotly_chart(fig)
+
+    st.markdown("""
+    The visual show employment trends by education level, 
+    revealing higher unemployment among the uneducated and higher employment amonf the educated for the population aged 16 and over. 
+    University-educated individuals have lower unemployment rates, indicating that higher education correlates with improved employment prospects.
+    """)
+
     st.markdown("------------------------------------------------------------")
+
+
+# Run the app
+if __name__ == '__main__':
+    # Load your data here or pass the DataFrame to the function
+    df = pd.read_excel('./data/labour_force_data.xlsx',
+                       sheet_name='Table B.5', skiprows=1)
+    df = df.dropna(axis=1, how='all')  # Drop empty columns
+    df = df.dropna(axis=0, how='all')  # Drop empty rows
+    graph2(df)

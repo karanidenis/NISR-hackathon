@@ -1,126 +1,88 @@
-from plotly.subplots import make_subplots
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 
-def graph4():
-    st.header("Labour Force Statistics by Age Group")
+# Function to create the bar chart
 
-    # Assuming df_b7 is your DataFrame containing the data from Table B.7
-    # You would load your data here
-    # df_b7 = pd.read_csv('path_to_your_csv.csv')
 
-    # For demonstration purposes, we're creating a sample dataframe.
-    employed_population_data = {
-        'Age_Group': [
-            'Total', '15-19 yrs', '20-24 yrs', '25-29 yrs', '30-34 yrs',
-            '35-39 yrs', '40-44 yrs', '45-49 yrs', '50-54 yrs', '55-59 yrs', '60-64 yrs'
-        ],
-        'Total': [3972193, 322790, 586840, 603320, 567053, 540358, 489003, 295037, 221177, 135729, 130148],
-        'Male': [2248640, 182765, 350693, 333086, 322444, 302996, 287918, 154501, 117691, 69726, 75328],
-        'Female': [1723553, 140025, 236147, 270234, 244610, 237362, 201086, 140536, 103486, 66004, 54820],
-        'Urban': [1405959, 89475, 206420, 223444, 236013, 216230, 171792, 103190, 70905, 40266, 30984],
-        'Rural': [2566234, 233315, 380420, 379876, 331041, 324128, 317212, 191848, 150273, 95463, 99164],
-    }
+def graph4(df):
+    st.header("Occupation Groups in labour market outcomes")
 
-    df_employed_b7 = pd.DataFrame(employed_population_data)
+    # drop last row
+    df.drop(df.index[-1], inplace=True)
 
-    # Sidebar widget for age group selection
-    selected_sex = st.sidebar.selectbox(
-        'Select Sex for employed population', ['Total', 'Male', 'Female'])
+    # # Define the columns for the bar chart
+    df.columns = ['Occupation_Group', 'Total', 'Male', 'Female',
+                  'Urban', 'Rural', 'Participated', 'Not participated']
 
-    # If 'Total' is selected, we show data for both Male and Female.
-    if selected_sex == 'Total':
-        filtered_df = df_employed_b7.copy()
+    # Exclude the 'Total' row for the bar chart display
+    df = df[df['Occupation_Group'] != 'Total']
+
+    # Sidebar widget for gender selection
+    selected_gender = st.sidebar.selectbox(
+        "Select Gender", ["Both", "Male", "Female"])
+
+    # Plotting the bar chart using Plotly
+    fig_b8 = go.Figure()
+
+    if selected_gender == "Both":
+        fig_b8.add_trace(go.Bar(
+            x=df['Occupation_Group'],
+            y=df['Male'],  # reduce the y axis box sizes to 0.25 from 0.5
+            name='Male',
+            marker_color='blue'
+        ))
+        fig_b8.add_trace(go.Bar(
+            x=df['Occupation_Group'],
+            y=df['Female'],
+            name='Female',
+            marker_color='magenta'
+        ))
     else:
-        filtered_df = df_employed_b7[['Age_Group', selected_sex]]
-
-    # Create the bar chart using Plotly
-    fig = go.Figure()
-
-    # Add trace for the selected sex
-    fig.add_trace(go.Bar(
-        x=filtered_df['Age_Group'],
-        y=filtered_df[selected_sex],
-        name=selected_sex
-    ))
+        fig_b8.add_trace(go.Bar(
+            x=df['Occupation_Group'],
+            y=df[selected_gender],
+            name=selected_gender,
+            marker_color='blue' if selected_gender == "Male" else 'magenta'
+        ))
 
     # Customize layout with a title and axis labels
-    fig.update_layout(
-        title=f"Employment Statistics by Age Group - {selected_sex}",
-        xaxis_title="Age Group",
+    # fig_b8.update_yaxes(range=[0, 0.2])
+    fig_b8.update_layout(
+        title="Gender Disparities in Labour Market by Occupation Group",
+        xaxis_title="Occupation Group",
         yaxis_title="Number of Employed Persons",
         barmode='group',
-        legend_title="Sex"
+        margin=dict(l=60, r=60, t=50, b=50),
+        # reduce y axis box sizes to 0.25 from 0.5 use ylim
+        width=800,
+        height=600
     )
 
     # Render the plot in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig_b8)
 
     # Summary
-    st.markdown(f"""
-    The bar chart displays the distribution of employed persons across different age groups for the selected sex category.
-    This interactive feature allows us to observe trends and patterns in employment, such as which age groups have higher or lower
-    employment rates, and how these patterns differ between males and females.
+    st.markdown("""
+    The visualization above demonstrates the gender disparities across different occupation groups in Rwanda's labor market. 
+    Significant disparities are evident in several sectors. For instance, 'Service and sales workers' 
+    show a higher female representation, while 'Craft and related trades workers', 'Elementary occupations' and 'Plant and machine operators and assemblers' 
+    are predominantly male-dominated. The data suggests a need for gender-targeted policies in occupational sectors to ensure 
+    equitable employment opportunities.
     """)
-
-    # Assuming df_b17 is your DataFrame containing the data from Table B.17
-    # You would load your data here
-    # df_b17 = pd.read_csv('path_to_your_csv.csv')
-
-    # For demonstration purposes, we're creating a sample dataframe.
-    unemployed_population_data = {
-        'Age_Group': [
-            'Total', '16-24 yrs', '25-34 yrs', '35-54 yrs', '55-64 yrs', '65+ yrs'
-        ],
-        'Total': [874876, 280990, 268769, 283066, 36253, 5799],
-        'Male': [391587, 147422, 87766, 134292, 18178, 3929],
-        'Female': [483289, 133569, 181002, 148775, 18074, 1870],
-        'Urban': [265393, 88112, 87171, 81989, 5588, 2534],
-        'Rural': [609483, 192878, 181598, 201077, 30665, 3265],
-    }
-
-
-    df_employed_b17 = pd.DataFrame(unemployed_population_data)
-
-    # Sidebar widget for age group selection
-    sex = st.sidebar.selectbox(
-        'Select Sex for Unemployed population', ['Total', 'Male', 'Female'], key='sex_select')
-
-    # If 'Total' is selected, we show data for both Male and Female.
-    if sex == 'Total':
-        filtered_df = df_employed_b17.copy()
-    else:
-        filtered_df = df_employed_b17[['Age_Group', sex]]
-
-    # Create the bar chart using Plotly
-    fig = go.Figure()
-
-    # Add trace for the selected sex
-    fig.add_trace(go.Bar(
-        x=filtered_df['Age_Group'],
-        y=filtered_df[sex],
-        name=sex
-    ))
-
-    # Customize layout with a title and axis labels
-    fig.update_layout(
-        title=f"Unemployment Statistics by Age Group - {sex}",
-        xaxis_title="Age Group",
-        yaxis_title="Number of Unemployed Persons",
-        barmode='group',
-        legend_title="Sex"
-    )
-
-    # Render the plot in Streamlit
-    st.plotly_chart(fig)
-
-    # Summary
-    st.markdown(f"""
-    The bar chart displays the distribution of unemployed persons across different age groups for the selected sex category.
-    This interactive feature allows us to observe trends and patterns in unemployment, such as which age groups have higher or lower
-    uemployment rates, and how these patterns differ between males and females.
-    """)
-    
     st.markdown("------------------------------------------------------------")
+
+    # Using st.expander to make the DataFrame collapsible
+    expander = st.expander("Click here to expand/collapse the DataFrame")
+    with expander:
+        st.dataframe(df)
+
+
+# Run the graph3 function when the script is executed
+if __name__ == '__main__':
+    #  Read the data from the Excel file
+    df = pd.read_excel('./data/labour_force_data.xlsx',
+                       sheet_name='Table B.8', skiprows=2)
+    # Drop rows and columns with all NaN values
+    df = df.dropna(axis=1, how='all').dropna(axis=0, how='all')
+    graph4(df)

@@ -1,24 +1,15 @@
-# Set page configuration
+from graph_3 import graph_3
+from graph_1 import graph_1
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
-                   page_icon=":bar_chart:", initial_sidebar_state="expanded")
+# st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
+#                    page_icon=":bar_chart:", initial_sidebar_state="expanded")
 
-
-# Import your graph functions. Ensure that these are defined in separate Python files and are importable.
-from graph_1 import graph_1
-from graph_2 import graph2
-from graph_3 import graph_3
+from graph2 import graph2
 from graph_4 import graph4
+from graph_3 import graph_3
 from graph6 import graph6
-# from graph1 import graph1
-# from graph2 import graph2
-# from graph3 import graph3
-# from graph4 import graph4
-# from graph5 import graph5
-
-
 
 # Load your data here for each graph
 df_b1 = pd.read_excel('./data/labour_force_data.xlsx',
@@ -47,9 +38,6 @@ df_b17.dropna(axis=1, how='all', inplace=True)
 df_b17.dropna(axis=0, how='all', inplace=True)
 
 # Title container
-with st.container():
-    st.title("Rwanda Labour Force Survey Dashboard 2023:Q3")
-
 # Graph container
 with st.container():
     st.markdown("""
@@ -83,3 +71,5 @@ with col2:
         if st.session_state.current_graph_index < len(graph_functions) - 1:
             st.session_state.current_graph_index += 1
             st.experimental_rerun()
+
+

@@ -1,40 +1,108 @@
-from plotly.subplots import make_subplots
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
-def graph1():
-    
-# General Labor Force Stats
-    st.header("General Labour Force Statistics")
+# Custom CSS for styling the metric boxes
+st.markdown("""
+<style>
+.metric-box {
+    # background-color: #009688;
+    # background-color: #1f2c56;
+    # background-color: blue;
+    background-color: #006af9;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+.metric-value {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.2em;
+}
+.metric-label {
+    font-size: 1em;
+}
+# .data-container {
+#     margin-top: 20px;
+# }
+</style>
+""", unsafe_allow_html=True)
 
-    # Sidebar widget for area of residence selection
-    area = st.sidebar.selectbox('Select Area of Residence', [
-                                'Total', 'Male', 'Female', 'Urban', 'Rural', 'Participated', 'Not participated'])
+# Function to display metric boxes
+# st.title("Rwanda Labour Force Survey Dashboard 2023:Q3")
 
-    # Assuming df_b1 is your DataFrame containing the data from Table B.1
-    # You would load your data here
-    # df_b1 = pd.read_csv('path_to_your_csv.csv')
+st.header("General Labour Force Statistics")
 
-    # For demonstration purposes, we're creating a sample dataframe.
-    df_b1 = pd.DataFrame({
-        'Indicators': ['Working age population (16+ years)', 'Labour force', 'Employed', 'Unemployed', 'Out of labour force'],
-        'Total': [8100430, 4847069, 3972193, 874876, 3253361],
-        'Male': [3798558, 2640227, 2248640, 391587, 1158332],
-        'Female': [4301872, 2206843, 1723553, 483289, 2095029],
-        'Urban': [2441445, 1671352, 1405959, 265393, 770093],
-        'Rural': [5658985, 3175717, 2566234, 609483, 2483267],
-        'Participated': [2521332, 1299616, 972074, 327541, 1221716],
-        'Not participated': [5579098, 3547454, 3000119, 547335, 2031645]
-    })
 
-    # Filter the DataFrame based on the selected area
-    filtered_df = df_b1[['Indicators', area]]
+def create_metric_box(label, value):
 
-    # Create the bar chart with the filtered data
-    fig_b1 = px.bar(filtered_df, x='Indicators', y=area,
-                    title=f'Labour Force Indicators in Rwanda - {area}')
-    st.plotly_chart(fig_b1)
-    
-    st.markdown("------------------------------------------------------------")
+    st.markdown(f"""
+        <div class="metric-box">
+            <div class="metric-value">{value}</div>
+            <div class="metric-label">{label}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+
+# Layout for metric boxes
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    create_metric_box("Working Population (Age: 16+ years)", "8,100,430")
+with col2:
+    create_metric_box("Popualtion in Labor force", "4,847,069")
+with col3:
+    create_metric_box("Employed Population", "3,972,193")
+with col4:
+    create_metric_box("Unemployed Population", "874,876")
+
+# Read the Excel file
+df = pd.read_excel('./data/labour_force_data.xlsx',
+                   sheet_name='Table B.1', skiprows=2)
+df = df.dropna(axis=1, how='all')  # Drop empty columns
+df = df.dropna(axis=0, how='all')  # Drop empty rows
+
+
+# Function to create and display the pie chart
+
+
+def graph_1(df):
+
+    area = st.sidebar.radio(
+        'Select Sex', ['Total', 'Male', 'Female'], key="Graph1_sex")
+    filtered_df = df[['Unnamed: 0', area]].iloc[2:5]
+    filtered_df.columns = ['Indicators', 'Value']  # Rename columns for clarity
+
+    # Define your color scheme here
+    # colors = ['blue', 'red', '#1f2c56']
+    colors = ['#006af9', '#dc00fe', '#5319fb']
+
+    fig_pie = px.pie(filtered_df, values='Value', names='Indicators',
+                     title=f'Labour Force Distribution - {area}',
+                     color_discrete_sequence=colors)
+    st.plotly_chart(fig_pie, use_container_width=True)
+
+    # Summary
+    st.markdown(f"""
+    The chart illustrates the breakdown of the total population aged 16 and over by employment status: 
+    49% are employed, 10.8% are unemployed, and 40.2% are not part of the labor force.
+    """)
+
+# Display pie chart
+# display_pie_chart(df)
+
+
+# Add a radio button in the sidebar to toggle between the plot and the raw data
+view_mode = st.sidebar.selectbox(
+    "Select View Mode", ["Plot", "Raw Data"], key="1")
+
+# Based on the selection, either display the plot or the raw data
+if view_mode == "Plot":
+    graph_1(df)
+elif view_mode == "Raw Data":
+    # Wrap the data table in a container with margin
+    st.markdown('<div class="data-container">', unsafe_allow_html=True)
+    df = df.dropna(axis=1, how='all')  # Drop empty columns
+    st.dataframe(df)  # This will display the dataframe as a table
+    st.markdown('</div>', unsafe_allow_html=True)
+    # st.dataframe(df)

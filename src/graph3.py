@@ -1,62 +1,104 @@
-from plotly.subplots import make_subplots
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 
 
-def graph3():
+def graph3(df):
     st.header("Gender disparities in labour market outcomes")
 
-    employed_data_b8 = {
-        'Occupation_Group': [
-            'Total', 'Managers', 'Professionals', 'Technicians_and_associate_professionals',
-            'Clerical_support_workers', 'Service_and_sales_workers',
-            'Skilled_agricultural_forestry_and_fishery_workers',
-            'Craft_and_related_trades_workers', 'Plant_and_machine_operators_and_assemblers',
-            'Elementary_occupations'
-        ],
-        'Male': [2248640, 21065, 159306, 20100, 11104, 324510, 99776, 273962, 105903, 1232913],
-        'Female': [1723553, 16745, 99358, 8781, 18491, 396234, 84648, 91998, 4045, 1003253]
-    }
+    # Clean data
+    df.dropna(axis=1, how='all', inplace=True)
+    df.dropna(axis=0, how='all', inplace=True)
+    df.dropna(axis=1, how='all', inplace=True)
+    df.dropna(axis=0, how='all', inplace=True)
+    df_b7 = df
+    df_b17 = df
+    # Rename the first column to 'Occupation_Group' for consistency
+    df_b7.columns = ['Occupation_Group'] + df_b7.columns[1:].tolist()
+    df_b17.columns = ['Occupation_Group'] + df_b17.columns[1:].tolist()
 
-    df_employed_b8 = pd.DataFrame(employed_data_b8)
+    df_b7 = df_b7[df_b7['Occupation_Group'] !=
+                  'Total unemployed population(16+ years)']
+    df_b7 = df_b7[df_b7['Occupation_Group'] !=
+                  'Source:  Labour Force Survey,2023:Q3(NISR)']
+    # print(df_b7)
+    df_b17 = df_b17[df_b17['Occupation_Group'] !=
+                    'Total unemployed population(16+ years)']
+    df_b17 = df_b17[df_b17['Occupation_Group'] !=
+                    'Source:  Labour Force Survey,2023:Q3(NISR)']
+    # print(df_b17)
 
-    # Plotting the bar chart using Plotly
-    fig_b8 = go.Figure()
+    # Sidebar for gender selection
+    gender_options = ['Total', 'Male', 'Female']
+    selected_gender = st.sidebar.radio('Select Gender', gender_options)
 
-    fig_b8.add_trace(go.Bar(
-        x=df_employed_b8['Occupation_Group'],
-        y=df_employed_b8['Male'],
-        name='Male',
-        marker_color='blue'
-    ))
+    # Plot for Table B.7
+    fig_b7 = go.Figure()
 
-    fig_b8.add_trace(go.Bar(
-        x=df_employed_b8['Occupation_Group'],
-        y=df_employed_b8['Female'],
-        name='Female',
-        marker_color='magenta'
-    ))
+    if selected_gender == 'Total':
+        # Include both 'Male' and 'Female' data
+        fig_b7.add_trace(go.Bar(
+            x=df_b7['Occupation_Group'], y=df_b7['Male'], name='Male', marker_color='#006af9'))
+        fig_b7.add_trace(go.Bar(
+            x=df_b7['Occupation_Group'], y=df_b7['Female'], name='Female', marker_color='#dc00fe'))
+    else:
+        # Only include the selected gender data
+        fig_b7.add_trace(go.Bar(
+            x=df_b7['Occupation_Group'], y=df_b7[selected_gender], name=selected_gender))
 
-    # Customize layout with a title and axis labels
-    fig_b8.update_layout(
-        title="Gender Disparities in Labour Market by Occupation Group",
-        xaxis_title="Occupation Group",
-        yaxis_title="Number of Employed Persons",
-        barmode='group',
-        margin=dict(l=60, r=60, t=50, b=50)  # Adjust margins to fit the title
-    )
-
-    # Render the plot in Streamlit
-    st.plotly_chart(fig_b8)
+    fig_b7.update_layout(title=f"Employment Statistics - {selected_gender}",
+                         xaxis_title='Occupation Group', yaxis_title='Number of Persons',
+                         #  height=600, width=800,
+                         margin=dict(l=60, r=60, t=50, b=50))
+    st.plotly_chart(fig_b7)
 
     # Summary
-    st.markdown("""
-    The visualization above demonstrates the gender disparities across different occupation groups in Rwanda's labor market. 
-    Significant disparities are evident in several sectors. For instance, 'Service and sales workers' 
-    show a higher female representation, while 'Craft and related trades workers', 'Elementary occupations' and 'Plant and machine operators and assemblers' 
-    are predominantly male-dominated. The data suggests a need for gender-targeted policies in occupational sectors to ensure 
-    equitable employment opportunities.
+    st.markdown(f"""
+    The bar chart displays the distribution of employed persons across different age groups for the selected sex category.
+    This interactive feature allows us to observe trends and patterns in employment, such as which age groups have higher or lower
+    employment rates, and how these patterns differ between males and females.
     """)
-    st.markdown("------------------------------------------------------------")
+
+    # Plot for Table B.17
+    fig_b17 = go.Figure()
+
+    if selected_gender == 'Total':
+        # Include both 'Male' and 'Female' data
+        fig_b17.add_trace(go.Bar(
+            x=df_b17['Occupation_Group'], y=df_b17['Male'], name='Male', marker_color='#006af9'))
+        fig_b17.add_trace(go.Bar(
+            x=df_b17['Occupation_Group'], y=df_b17['Female'], name='Female', marker_color='#dc00fe'))
+    else:
+        # Only include the selected gender data
+        fig_b17.add_trace(go.Bar(
+            x=df_b17['Occupation_Group'], y=df_b17[selected_gender], name=selected_gender))
+
+    fig_b17.update_layout(
+        title=f"Unemployment Statistics - {selected_gender}", xaxis_title='Occupation Group', yaxis_title='Number of Persons', margin=dict(l=60, r=60, t=50, b=50))
+    st.plotly_chart(fig_b17)
+
+    # Summary
+    st.markdown(f"""
+    The bar chart displays the distribution of unemployed persons across different age groups for the selected sex category.
+    This interactive feature allows us to observe trends and patterns in unemployment, such as which age groups have higher or lower
+    uemployment rates, and how these patterns differ between males and females.
+    """)
+
+    # st.dataframe(df_b17)
+    b7 = pd.DataFrame(df_b7)
+    b17 = pd.DataFrame(df_b17)
+    # Using st.expander to make the DataFrame collapsible
+    expander = st.expander("Click here to expand/collapse the DataFrame")
+    with expander:
+        st.dataframe(b7)
+        st.dataframe(b17)
+
+
+# Run the graph4 function when the script is executed
+if __name__ == '__main__':
+    # Load data
+    df = pd.read_excel('data/labour_force_data.xlsx',
+                       sheet_name='Table B.7', skiprows=2)
+    df = pd.read_excel('data/labour_force_data.xlsx',
+                       sheet_name='Table B.17', skiprows=2)
+    graph3(df)
