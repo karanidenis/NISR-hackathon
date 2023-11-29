@@ -30,8 +30,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Function to display metric boxes
-# st.title("Rwanda Labour Force Survey Dashboard 2023:Q3")
-
+st.title("Rwanda Labour Force Survey Dashboard 2023:Q3")
+st.markdown("""
+        This dashboard provides insights into Rwanda's labour force dynamics, 
+        highlighting the relationship between educational attainment, gender, and age-group with employment statistics.
+    """)
 st.header("General Labour Force Statistics")
 
 
