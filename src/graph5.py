@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 
 def graph5(df_7, df_17):
-    st.header("Gender disparities in labour market outcomes")
+    st.header("Age disparities in labour market outcomes")
 
     # Clean data
     # df.dropna(axis=1, how='all', inplace=True)
