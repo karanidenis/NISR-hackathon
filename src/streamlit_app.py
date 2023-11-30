@@ -1,9 +1,14 @@
 # Set page configuration
+from graph4 import graph4
+from graph3 import graph3
+from graph2 import graph2
+from graph1 import graph1
+from graph6 import graph6
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
-                   page_icon=":bar_chart:", initial_sidebar_state="expanded")
+# st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
+#                    page_icon=":bar_chart:", initial_sidebar_state="expanded")
 
 
 # Import your graph functions. Ensure that these are defined in separate Python files and are importable.
@@ -11,13 +16,7 @@ st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboa
 # from graph_2 import graph2
 # from graph_3 import graph_3
 # from graph_4 import graph4
-from graph6 import graph6
-from graph1 import graph_1
-from graph2 import graph2
-from graph3 import graph3
-from graph4 import graph4
 # from graph5 import graph5
-
 
 
 # Load your data here for each graph
@@ -58,7 +57,7 @@ with st.container():
     """)
 
     # Define a list of graph functions
-    graph_functions = [graph_1, graph2, graph3, graph4, graph6]
+    graph_functions = [graph1, graph2, graph3, graph4, graph6]
     # Add other DataFrames like df_b2, df_b3, etc., to this list.
     dataframes = [df_b1, df_b5, df_b7, df_b17, df_b5]
 
