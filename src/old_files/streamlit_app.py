@@ -1,13 +1,15 @@
-# Set page configuration
-# from graph4 import graph4
-from graph5 import graph5
-from graph2 import graph2
-from graph1 import graph1
-from graph4 import graph_4
-from graph3 import graph3
 import streamlit as st
 import pandas as pd
 
+# Import your graph functions.
+from graph_1 import graph1
+from graph_2 import graph2
+from graph_3 import graph_3
+from graph_4 import graph4
+
+# Set page configuration
+st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
+                   page_icon=":bar_chart:", initial_sidebar_state="expanded")
 
 # Load your data here for each graph
 df_b1 = pd.read_excel('./data/labour_force_data.xlsx',
@@ -20,20 +22,20 @@ df_b5 = pd.read_excel('./data/labour_force_data.xlsx',
 df_b5.dropna(axis=1, how='all', inplace=True)
 df_b5.dropna(axis=0, how='all', inplace=True)
 
-df_7 = pd.read_excel('./data/labour_force_data.xlsx',
-                     sheet_name='Table B.7', skiprows=2)
-df_7.dropna(axis=1, how='all', inplace=True)
-df_7.dropna(axis=0, how='all', inplace=True)
+df_b7 = pd.read_excel('./data/labour_force_data.xlsx',
+                      sheet_name='Table B.7', skiprows=2)
+df_b7.dropna(axis=1, how='all', inplace=True)
+df_b7.dropna(axis=0, how='all', inplace=True)
 
 df_b8 = pd.read_excel('./data/labour_force_data.xlsx',
                       sheet_name='Table B.8', skiprows=2)
 df_b8.dropna(axis=1, how='all', inplace=True)
 df_b8.dropna(axis=0, how='all', inplace=True)
 
-df_17 = pd.read_excel('./data/labour_force_data.xlsx',
-                      sheet_name='Table B.17', skiprows=2)
-df_17.dropna(axis=1, how='all', inplace=True)
-df_17.dropna(axis=0, how='all', inplace=True)
+df_b17 = pd.read_excel('./data/labour_force_data.xlsx',
+                       sheet_name='Table B.17', skiprows=2)
+df_b17.dropna(axis=1, how='all', inplace=True)
+df_b17.dropna(axis=0, how='all', inplace=True)
 
 # Title container
 with st.container():
@@ -47,9 +49,8 @@ with st.container():
     """)
 
     # Define a list of graph functions
-    graph_functions = [graph1, graph2, graph3, graph5, graph_4]
-    # Add other DataFrames to this list
-    dataframes = [df_b1, df_b5, df_b5, df_7, df_17, df_b8]
+    graph_functions = [graph1, graph2, graph_3, graph4]
+    dataframes = [df_b1, df_b5, df_b8, df_b7, df_b17, df_b5]
 
     # Initialize session state for the index of the current graph
     if 'current_graph_index' not in st.session_state:
@@ -57,16 +58,7 @@ with st.container():
 
     # Display the current graph
     current_graph_index = st.session_state.current_graph_index
-
-    # Call the current graph function with appropriate parameters
-    for i in range(len(graph_functions)):
-        if i == current_graph_index:
-            if i == 3:  # Special case for graph3
-                graph_functions[i](df_7, df_17)
-            elif i == 4:  # Special case for graph4
-                graph_functions[i](df_b8)
-            else:
-                graph_functions[i](dataframes[i])
+    graph_functions[current_graph_index](dataframes[current_graph_index])
 
 # Navigation buttons
 col1, col2 = st.columns(2)
