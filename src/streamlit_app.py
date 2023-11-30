@@ -1,10 +1,10 @@
 # Set page configuration
 # from graph4 import graph4
-from graph5 import graph3
+from graph5 import graph5
 from graph2 import graph2
 from graph1 import graph1
 from graph4 import graph_4
-from graph3 import graph6
+from graph3 import graph3
 import streamlit as st
 import pandas as pd
 
@@ -47,7 +47,7 @@ with st.container():
     """)
 
     # Define a list of graph functions
-    graph_functions = [graph1, graph2, graph6, graph3, graph_4]
+    graph_functions = [graph1, graph2, graph3, graph5, graph_4]
     # Add other DataFrames to this list
     dataframes = [df_b1, df_b5, df_b5, df_7, df_17, df_b8]
 

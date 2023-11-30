@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 
-def graph3(df_7, df_17):
+def graph5(df_7, df_17):
     st.header("Gender disparities in labour market outcomes")
 
     # Clean data
@@ -111,4 +111,4 @@ if __name__ == '__main__':
     df_7.dropna(axis=0, how='all', inplace=True)
     df_17.dropna(axis=1, how='all', inplace=True)
     df_17.dropna(axis=0, how='all', inplace=True)
-    graph3(df_7, df_17)
+    graph5(df_7, df_17)

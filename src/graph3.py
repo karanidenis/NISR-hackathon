@@ -6,7 +6,7 @@ from data_frames import read_table, file_path
 
 # Streamlit app
 
-def graph6(df):
+def graph3(df):
     # Read the table using the provided function
     teal = '#FF7F50'
     dark_blue = '#008080'
@@ -47,4 +47,4 @@ def graph6(df):
 
 if __name__ == "__main__":
     df = read_table(file_path, 'Table B.5', 'A', 'I', 2, 24)
-    graph6(df)
+    graph3(df)
