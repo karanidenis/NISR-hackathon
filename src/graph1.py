@@ -11,7 +11,7 @@ import plotly.express as px
 #         This dashboard provides insights into Rwanda's labour force dynamics,
 #         highlighting the relationship between educational attainment, gender, and age-group with employment statistics.
 #     """)
-st.header("General Working population(16+) Statistics")
+# st.header("General Working population(16+) Statistics")
 
 
 def create_metric_box(label, value):
@@ -78,8 +78,11 @@ def show_graph(df):
     filtered_df.columns = ['Indicators', 'Value']  # Rename columns for clarity
 
     # Define your color scheme here
-    # colors = ['blue', 'red', '#1f2c56']
-    colors = ['#006af9', '#dc00fe', '#5319fb']
+    colors = ['#006af9', '#008080', '#ff7f50']
+    # teal = '#FF7F50'
+    # dark_blue = '#008080'
+    # colors = ['#006af9', '#000080', '#5319fb']
+    
 
     fig_pie = px.pie(filtered_df, values='Value', names='Indicators',
                      title=f'Labour Force Distribution - {area}',
