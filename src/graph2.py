@@ -7,12 +7,16 @@ import streamlit as st
 
 def graph2(df):
 
-    st.header("Impact of Education Level on Employment Statistics")
+    st.header("Impact of Education Level on Employment")
 
     # Extract the relevant data for the first chart
     # Adjust indices as per your DataFrame
     df_b5 = df.iloc[1:7, [0, 6, 7, 8]]
 
+    # colors = ['#006af9', '#000080', '#36454F']
+    light_blue = '#006af9'
+    dark_blue = '#008080'
+    teal = '#FF7F50'
     # Sidebar widget for gender selection
     selected_gender = st.sidebar.radio(
         "Filter by Sex", ["Total", "Male", "Female"])
@@ -50,13 +54,13 @@ def graph2(df):
     ))
 
     fig_b5.add_trace(go.Bar(
-        x=df_gender['Education_Level'], marker_color='#dc00fe',
+        x=df_gender['Education_Level'], marker_color=teal,
         y=df_gender['Employment_to_population_ratio'],
         name='Employment to Population Ratio'
     ))
 
     fig_b5.add_trace(go.Bar(
-        x=df_gender['Education_Level'], marker_color='#5319fb',
+        x=df_gender['Education_Level'], marker_color=dark_blue,
         y=df_gender['Unemployment_rate'],
         name='Unemployment Rate'
     ))
@@ -97,7 +101,7 @@ def graph2(df):
     )
 
     fig.add_trace(
-        go.Bar(x=education_levels, marker_color='#dc00fe',
+        go.Bar(x=education_levels, marker_color=teal,
                y=unemployed_df, name='Unemployed Total'),
         row=1, col=2
     )

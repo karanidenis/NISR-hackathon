@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 # Function to create the bar chart
 
 
-def graph4(df):
+def graph_4(df):
     st.header("Occupation Groups in labour market outcomes")
 
     # drop last row
@@ -19,24 +19,28 @@ def graph4(df):
     df = df[df['Occupation_Group'] != 'Total']
 
     # Sidebar widget for gender selection
-    selected_gender = st.sidebar.selectbox(
+    selected_gender = st.sidebar.radio(
         "Select Gender", ["Both", "Male", "Female"])
 
     # Plotting the bar chart using Plotly
     fig_b8 = go.Figure()
 
+    teal = '#FF7F50'
+    dark_blue = '#008080'
+    light_blue = '#006af9'
+    
     if selected_gender == "Both":
         fig_b8.add_trace(go.Bar(
             x=df['Occupation_Group'],
             y=df['Male'],  # reduce the y axis box sizes to 0.25 from 0.5
             name='Male',
-            marker_color='blue'
+            marker_color=light_blue
         ))
         fig_b8.add_trace(go.Bar(
             x=df['Occupation_Group'],
             y=df['Female'],
             name='Female',
-            marker_color='magenta'
+            marker_color=teal
         ))
     else:
         fig_b8.add_trace(go.Bar(
@@ -49,7 +53,7 @@ def graph4(df):
     # Customize layout with a title and axis labels
     # fig_b8.update_yaxes(range=[0, 0.2])
     fig_b8.update_layout(
-        title="Gender Disparities in Labour Market by Occupation Group",
+        # title="Gender Disparities in Labour Market by Occupation Group",
         xaxis_title="Occupation Group",
         yaxis_title="Number of Employed Persons",
         barmode='group',
@@ -85,4 +89,4 @@ if __name__ == '__main__':
                        sheet_name='Table B.8', skiprows=2)
     # Drop rows and columns with all NaN values
     df = df.dropna(axis=1, how='all').dropna(axis=0, how='all')
-    graph4(df)
+    graph_4(df)
