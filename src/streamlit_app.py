@@ -1,13 +1,15 @@
 # Set page configuration
+from data_frames import read_table
 from graph4 import graph4
 from graph3 import graph3
 from graph2 import graph2
 from graph1 import graph1
 from graph6 import graph6
+from time_series_graph import time_series_graph
 import streamlit as st
 import pandas as pd
 
-# st.set_page_config(layout="wide", page_title="Rwanda Labour Force Survey Dashboard",
+# st.set_page_config(layout="centered", page_title="Rwanda Labour Force Survey Dashboard",
 #                    page_icon=":bar_chart:", initial_sidebar_state="expanded")
 
 
@@ -45,6 +47,9 @@ df_b17 = pd.read_excel('./data/labour_force_data.xlsx',
 df_b17.dropna(axis=1, how='all', inplace=True)
 df_b17.dropna(axis=0, how='all', inplace=True)
 
+
+df_time_series = read_table("./data/labour_force_data.xlsx",  "Table 0", "A", "F", 3, 27)
+# print(df_time_series)
 # Title container
 with st.container():
     st.title("Rwanda Labour Force Survey Dashboard 2023:Q3")
@@ -56,10 +61,13 @@ with st.container():
         highlighting the relationship between educational attainment, gender, and age-group with employment statistics.
     """)
 
+    
+    # Create a DataFrame from the sample data
+    # df = pd.DataFrame(data)
     # Define a list of graph functions
-    graph_functions = [graph1, graph2, graph3, graph4, graph6]
+    graph_functions = [graph1, time_series_graph, graph2, graph3, graph4, graph6]
     # Add other DataFrames like df_b2, df_b3, etc., to this list.
-    dataframes = [df_b1, df_b5, df_b7, df_b17, df_b5]
+    dataframes = [df_b1, df_time_series, df_b5, df_b7, df_b17, df_b5]
 
     # Initialize session state for the index of the current graph
     if 'current_graph_index' not in st.session_state:

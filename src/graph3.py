@@ -87,11 +87,11 @@ def graph3(df):
     # st.dataframe(df_b17)
     b7 = pd.DataFrame(df_b7)
     b17 = pd.DataFrame(df_b17)
-    # Using st.expander to make the DataFrame collapsible
-    expander = st.expander("Click here to expand/collapse the DataFrame")
-    with expander:
-        st.dataframe(b7)
-        st.dataframe(b17)
+    # # Using st.expander to make the DataFrame collapsible
+    # expander = st.expander("Click here to expand/collapse the DataFrame")
+    # with expander:
+    #     st.dataframe(b7)
+    #     st.dataframe(b17)
 
 
 # Run the graph4 function when the script is executed

@@ -19,8 +19,8 @@ def graph5():
     df['Female'] = df['Female'].astype(int)
 
     # print the dataframe for debugging
-    print(df)
-
+    # print(df)
+    
     # Get the total working-age population which is the first row's 'Total' after converting to int
     total_working_age_population = df.iloc[0, 1]
     print(total_working_age_population)
