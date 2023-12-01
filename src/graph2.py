@@ -7,7 +7,7 @@ import streamlit as st
 
 def graph2(df):
 
-    st.header("Impact of Education Level on Employment Statistics")
+    st.header("Impact of Education Level on Employment")
 
     # Extract the relevant data for the first chart
     # Adjust indices as per your DataFrame
