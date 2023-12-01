@@ -4,6 +4,8 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from graph3 import graph3
+
 
 def graph2(df):
 
@@ -128,7 +130,10 @@ def graph2(df):
     revealing higher unemployment among the uneducated and higher employment amonf the educated for the population aged 16 and over. 
     University-educated individuals have lower unemployment rates, indicating that higher education correlates with improved employment prospects.
     """)
-
+    
+    
+    
+    graph3(df)
     st.markdown("------------------------------------------------------------")
 
 
