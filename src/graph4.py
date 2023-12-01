@@ -62,7 +62,8 @@ def graph_4(df):
         width=800,
         height=600
     )
-
+    
+    
     # Render the plot in Streamlit
     st.plotly_chart(fig_b8)
 

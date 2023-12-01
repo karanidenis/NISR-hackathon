@@ -54,9 +54,9 @@ with st.container():
 
     # Define a list of graph functions
     graph_functions = [graph1, time_series_graph,
-                       graph2, graph3, graph5, graph_4]
+                       graph2, graph5, graph_4]
     # Add other DataFrames to this list
-    dataframes = [df_b1, df_time_series, df_b5, df_b5, df_7, df_17, df_b8]
+    dataframes = [df_b1, df_time_series, df_b5,  df_7, df_17, df_b8]
 
     # Initialize session state for the index of the current graph
     if 'current_graph_index' not in st.session_state:
@@ -68,9 +68,9 @@ with st.container():
     # Call the current graph function with appropriate parameters
     for i in range(len(graph_functions)):
         if i == current_graph_index:
-            if i == 4:  # Special case for graph3
+            if i == 3:  # Special case for graph3
                 graph_functions[i](df_7, df_17)
-            elif i == 5:  # Special case for graph4
+            elif i == 4:  # Special case for graph4
                 graph_functions[i](df_b8)
             else:
                 graph_functions[i](dataframes[i])
