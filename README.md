@@ -54,7 +54,7 @@ The application should now be running on `http://localhost:8501`.
 
 ## Demo
 
-Watch a live demo of the dashboard [here](https://drive.google.com/file/d/1Qi0slMFULop5i0Mv3Oj5uwvdaEpX9hg9/view).
+Watch a live demo of the dashboard [here](https://drive.google.com/file/d/16XqMqR15w6Mx3FypJwbA5LoXzi_r-fS-/view).
 
 ## Usage
 
