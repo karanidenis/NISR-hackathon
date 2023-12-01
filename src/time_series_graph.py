@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 from data_frames import read_table
 
 colors = ['#006af9', '#008080', '#ff7f50']
+
+
 def time_series_graph(df):
     # Set the title of the web app
     # st.title('Unemployment Rate (2016 - 2023)')
@@ -14,7 +16,8 @@ def time_series_graph(df):
 
     # get the first 6 columns from df
     df1 = df.iloc[:, :6]
-    tab_selector = st.sidebar.selectbox('Select view mode', ['Graph', 'Data'], key="graphshow")
+    tab_selector = st.sidebar.selectbox(
+        'Select view mode', ['Graph', 'Data'], key="graphshow")
     selected_option = st.sidebar.selectbox(
         'Select Option', ['Female Vs Male', 'Urban vs Rural', 'Total'], index=0, key="graphoption2")
 
@@ -32,13 +35,13 @@ def time_series_graph(df):
         elif selected_option == 'Total':
             # Plot the Total line with markers
             fig = px.line(df1, x='Years', y='Total', labels={'value': 'Y-axis'}, line_dash_sequence=['solid'],
-                          line_shape='linear', markers=True, color_discrete_sequence=['red'])
+                          line_shape='linear', markers=True, color_discrete_sequence=[colors[1]])
 
         fig.update_layout(title='Unemployment Rate (2016 - 2023)',
                           xaxis_title='Years', yaxis_title='Unemployment Rate (%)')
         fig.update_yaxes(range=[0, 80])
         fig.update_xaxes(tickangle=-60, showline=True,  linecolor='black')
-      
+
         st.plotly_chart(fig)
         # ========================
 
@@ -66,7 +69,7 @@ def time_series_graph(df):
         elif selected_option == 'Total':
             # Plot the Total line with markers
             fig2 = px.line(df_employment_pop_ratio, x='Years', y='Total', labels={'value': 'Y-axis'}, line_dash_sequence=['solid'],
-                           line_shape='linear', markers=True, color_discrete_sequence=['red'])
+                           line_shape='linear', markers=True, color_discrete_sequence=[colors[1]])
 
         fig2.update_layout(title='Employement to Population Ratio (16+ years) (2016 - 2023)',
                            xaxis_title='Years', yaxis_title='Employment Rate (%)')

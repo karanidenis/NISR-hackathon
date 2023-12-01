@@ -40,7 +40,7 @@ def graph5(df_7, df_17):
         teal = '#FF7F50'
         dark_blue = '#008080'
         light_blue = '#006af9'
-        
+
         fig_b7.add_trace(go.Bar(
             x=df_b7['Occupation_Group'], y=df_b7['Male'], name='Male', marker_color='#006af9'))
         fig_b7.add_trace(go.Bar(
@@ -51,7 +51,7 @@ def graph5(df_7, df_17):
             x=df_b7['Occupation_Group'], y=df_b7[selected_gender], name=selected_gender))
 
     fig_b7.update_layout(title=f"Employment Statistics - {selected_gender}",
-                         xaxis_title='Occupation Group', yaxis_title='Number of Persons',
+                         xaxis_title='Age Group', yaxis_title='Number of Persons',
                          #  height=600, width=800,
                          margin=dict(l=60, r=60, t=50, b=50))
     st.plotly_chart(fig_b7)
@@ -78,7 +78,7 @@ def graph5(df_7, df_17):
             x=df_b17['Occupation_Group'], y=df_b17[selected_gender], name=selected_gender))
 
     fig_b17.update_layout(
-        title=f"Unemployment Statistics - {selected_gender}", xaxis_title='Occupation Group', yaxis_title='Number of Persons', margin=dict(l=60, r=60, t=50, b=50))
+        title=f"Unemployment Statistics - {selected_gender}", xaxis_title='Age Group', yaxis_title='Number of Persons', margin=dict(l=60, r=60, t=50, b=50))
     st.plotly_chart(fig_b17)
 
     # Summary
@@ -102,10 +102,10 @@ def graph5(df_7, df_17):
 if __name__ == '__main__':
     # Load data
     df_7 = pd.read_excel('data/labour_force_data.xlsx',
-                       sheet_name='Table B.7', skiprows=2)
+                         sheet_name='Table B.7', skiprows=2)
     df_17 = pd.read_excel('data/labour_force_data.xlsx',
-                       sheet_name='Table B.17', skiprows=2)
-    
+                          sheet_name='Table B.17', skiprows=2)
+
     # clean data
     df_7.dropna(axis=1, how='all', inplace=True)
     df_7.dropna(axis=0, how='all', inplace=True)
